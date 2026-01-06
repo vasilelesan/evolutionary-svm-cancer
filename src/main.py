@@ -60,6 +60,11 @@ def adjustment_function(alpha, y_train, C=1.0):
 
     return alpha
 
+def selection(population, fits, k=3):
+    # tournament selection
+    idx = np.random.randint(0, len(population), k)
+    return population[idx[np.argmax(fits[idx])]].copy()
+
 def evolutive_algorithm(Q, y_train):
     #number of genes
     nr_alpha=Q.shape[0]
