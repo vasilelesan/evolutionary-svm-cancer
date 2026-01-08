@@ -65,6 +65,30 @@ def selection(population, fits, k=3):
     idx = np.random.randint(0, len(population), k)
     return population[idx[np.argmax(fits[idx])]].copy()
 
+
+# crossover function: combine the parents to obtain the best child
+def crossover(p1, p2, cross_rate=0.8):
+    if np.random.rand() < cross_rate:
+        # create the child
+        child = np.random.rand()
+        return child * p1 + (1-child) *p2
+    #when paretns are good enought we keep one of them
+    return p1.copy()
+
+
+# function for mutation
+def mutation(alpha, mutation_rate=0.05, C=1.0):
+    for i in range(len(alpha)):
+        if np.random.rand() < mutation_rate:
+            # add gaussian variation
+            alpha[i] = alpha[i] + np.random.normal(0,0.1)
+    
+    # limits [0, C]
+    alpha[alpha<0] = 0
+    alpha[alpha > C] =C
+
+    return alpha
+    
 def evolutive_algorithm(Q, y_train):
     #number of genes
     nr_alpha=Q.shape[0]
