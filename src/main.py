@@ -108,8 +108,35 @@ def evolutive_algorithm(Q, y_train):
     # 2. Fitness
     fits = np.array([fitness_function(ind, Q) for ind in population])
 
-    print(f"Best individual: {np.max(fits)}")
-    return population, fits
+    # test for selection, mutation and crossover for first iteration
+    adjusted_population = []
+
+    try:
+        for _ in range(population_size):
+            #best parents selection
+            p1 = selection(population, fits)
+            p2 = selection(population, fits)
+
+            # crossover tets
+            child = crossover(p1, p2)
+
+            #mutation test
+            child = mutation(child, mutation_rate=0.05, C=C)
+
+            # add new child to population
+            adjusted_population.append(child)
+
+        adjusted_population=np.array(adjusted_population)
+        new_fits = np.array([fitness_function(ind, Q) for ind in adjusted_population])
+
+        print(f"First generation created: Population: {adjusted_population.shape}")
+        print(f"Fitnes for first generation: {np.max(new_fits): } ")
+    except Exception as e:
+        print(f"Error:{e}")
+
+
+    #print(f"Best individual: {np.max(fits)}")
+    return adjusted_population, new_fits
 
 
 
