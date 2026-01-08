@@ -120,6 +120,9 @@ def evolutive_algorithm(Q, y_train):
             # crossover tets
             child = crossover(p1, p2)
 
+            #adjust the child again because after crossover it has to be beetween [O,C]
+            child = adjustment_function(child, y_train, C)
+            
             #mutation test
             child = mutation(child, mutation_rate=0.05, C=C)
 
